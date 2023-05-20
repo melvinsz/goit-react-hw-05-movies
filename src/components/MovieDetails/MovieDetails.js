@@ -1,12 +1,14 @@
-import { useEffect, useState } from 'react';
-import { Link, Outlet, useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 
 const API_KEY = '7ea31d9c7e810941c666239a775266d7';
 
 const TourDetails = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
-  const navigate = useNavigate();
+
+  const location = useLocation();
+  const backLocationRef = useRef(location.state?.from ?? '/');
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -29,7 +31,7 @@ const TourDetails = () => {
 
   return (
     <>
-      <button onClick={() => navigate(-1)}>Go back</button>
+      <Link to={backLocationRef.current}>Go back</Link>
       {movie && (
         <div className="film-info">
           {movie.poster_path === null ? (

@@ -1,6 +1,12 @@
 import { useState } from 'react';
 import { ColorRing } from 'react-loader-spinner';
-import { Link, Outlet, useParams, useSearchParams } from 'react-router-dom';
+import {
+  Link,
+  Outlet,
+  useLocation,
+  useParams,
+  useSearchParams,
+} from 'react-router-dom';
 
 const API_KEY = '7ea31d9c7e810941c666239a775266d7';
 
@@ -11,6 +17,8 @@ const MovieList = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const value = searchParams.get('query') ?? '';
+
+  const location = useLocation();
 
   const handleChange = event => {
     if (event.target.value === '') {
@@ -61,7 +69,9 @@ const MovieList = () => {
           <ul>
             {movies.map(movie => (
               <li key={movie.id}>
-                <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
+                <Link to={`${movie.id}`} state={{ from: location }}>
+                  {movie.title}
+                </Link>
               </li>
             ))}
           </ul>
