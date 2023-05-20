@@ -5,8 +5,6 @@ import MovieDetails from './MovieDetails/MovieDetails';
 import Cast from './Cast/Cast';
 import Reviews from './Reviews/Reviews';
 
-// const API_KEY = '7ea31d9c7e810941c666239a775266d7';
-
 export const App = () => {
   const navigate = useNavigate();
 
