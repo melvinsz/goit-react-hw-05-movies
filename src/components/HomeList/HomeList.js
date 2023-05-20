@@ -6,8 +6,6 @@ const API_KEY = '7ea31d9c7e810941c666239a775266d7';
 const HomeList = () => {
   const [movies, setMovies] = useState([]);
 
-  const location = useLocation();
-
   useEffect(() => {
     const fetchMovies = async () => {
       try {
