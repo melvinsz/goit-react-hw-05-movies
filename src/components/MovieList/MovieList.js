@@ -10,33 +10,33 @@ const MovieList = () => {
   const { movieId } = useParams();
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const value = searchParams.get('query') || '';
+  const value = searchParams.get('query') ?? '';
 
   const handleChange = event => {
+    if (event.target.value === '') {
+      return setSearchParams({});
+    }
     setSearchParams({ query: event.target.value });
   };
 
-  const handleSubmit = event => {
+  const handleSubmit = async event => {
     event.preventDefault();
     if (value !== '') {
       setLoading(true);
-      fetch(
-        `https://api.themoviedb.org/3/search/movie?query=${value}&api_key=${API_KEY}`
-      )
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Failed to find movies');
-          }
-          return response.json();
-        })
-        .then(data => {
-          setLoading(false);
-          setMovies(data.results);
-        })
-        .catch(error => {
-          console.log(error.message);
-          setLoading(false);
-        });
+      try {
+        const response = await fetch(
+          `https://api.themoviedb.org/3/search/movie?query=${value}&api_key=${API_KEY}`
+        );
+        if (!response.ok) {
+          throw new Error('Failed to find movies');
+        }
+        const data = await response.json();
+        setMovies(data.results);
+        setLoading(false);
+      } catch (error) {
+        console.log(error.message);
+        setLoading(false);
+      }
     }
   };
 
@@ -46,7 +46,12 @@ const MovieList = () => {
         <Outlet />
       ) : (
         <form onSubmit={handleSubmit}>
-          <input type="text" autoComplete="off" onChange={handleChange} />
+          <input
+            type="text"
+            value={value}
+            autoComplete="off"
+            onChange={handleChange}
+          />
           <button type="submit">Search</button>
           {loading && (
             <div className="loader">
@@ -54,13 +59,11 @@ const MovieList = () => {
             </div>
           )}
           <ul>
-            {movies.map(movie => {
-              return (
-                <li key={movie.id}>
-                  <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
-                </li>
-              );
-            })}
+            {movies.map(movie => (
+              <li key={movie.id}>
+                <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
+              </li>
+            ))}
           </ul>
         </form>
       )}

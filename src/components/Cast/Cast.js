@@ -6,7 +6,7 @@ const API_KEY = '7ea31d9c7e810941c666239a775266d7';
 const Cast = () => {
   const { movieId } = useParams();
 
-  const [casts, setCast] = useState('');
+  const [casts, setCast] = useState([]);
 
   useEffect(() => {
     const fetchMovies = async () => {

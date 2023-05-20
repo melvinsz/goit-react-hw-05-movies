@@ -5,7 +5,7 @@ const API_KEY = '7ea31d9c7e810941c666239a775266d7';
 
 const Reviews = () => {
   const { movieId } = useParams();
-  const [reviews, setReviews] = useState('');
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     const fetchMovies = async () => {
