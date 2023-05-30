@@ -52,6 +52,7 @@ const MovieList = () => {
     if (value !== '') {
       handleSubmit({ preventDefault: () => {} });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
