@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ColorRing } from 'react-loader-spinner';
 import {
   Link,
@@ -47,6 +47,12 @@ const MovieList = () => {
       }
     }
   };
+
+  useEffect(() => {
+    if (value !== '') {
+      handleSubmit({ preventDefault: () => {} });
+    }
+  }, []);
 
   return (
     <>
